@@ -5,12 +5,13 @@ let result_area = document.getElementById('result_area');
 let resetBtn = document.getElementById('resetBtn');
 let chances = 5;
 let gameOver = false;
-let chances_area =document.getElementById('chances_area')
+let chances_area =document.getElementById('chances_area');
+let history = [];
 
 function pickRandomNum(){
     computerNum =  Math.floor((Math.random())*100)+1
     console.log(computerNum);
-    chances_area.textContent=`남은기회 :${chances}`
+    chances;
 }
 
 playBtn.addEventListener("click", play);
@@ -18,7 +19,9 @@ resetBtn.addEventListener("click", reset);
 
 function reset() {
     userInput.value = ""
+    
     pickRandomNum();
+    
     
     result_area.textContent = "결과 값이 나옵니다"
     
@@ -27,8 +30,18 @@ function reset() {
 
 function play(){
     let userValue = userInput.value;
+
+    if(userValue > 100 || userValue <1){
+        result_area.textContent = "1과 100사이 숫자를 입력해주세요";
+        return;
+    } 
+    if (history.includes(userValue)){
+        result_area.textContent = "이미 입력한 숫자입니다 다른 숫자를 입력해주세요";
+        return;
+    }
+
     chances -- ;
-    
+    chances_area.textContent=`남은기회 :${chances}`
 
     if(userValue < computerNum){
         result_area.textContent = "UP!!";
@@ -45,6 +58,10 @@ function play(){
     if(gameOver == true){
         playBtn.disabled = true;
     }
+   
+
+    history.push(userValue);
+    console.log(history)
 }
 
 
